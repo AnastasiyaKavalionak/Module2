@@ -1,10 +1,13 @@
 'use strict';
 
-class PlayRoom {
+require('./toy');
+require('./catalog');
+
+module.exports = class PlayRoom {
 	constructor (name, countOfToys, maxCostOfToys, ageGroup) {
 		this.name = name;
 		this.toys = [];
-		this.countOfToys = CountOfToys;
+		this.countOfToys = countOfToys;
 		this.maxCostOfToys = maxCostOfToys;
 		this.ageGroup = ageGroup;
 	}
@@ -62,21 +65,16 @@ class PlayRoom {
 		let sum = 0, counter = this.countOfToys, flag = 1;
 		let toy;
         let sizes = ['big', 'middle', 'small'];
+		console.log(this.ageGroup);
 		while (counter > 0) {
             for (let i = 0; i < sizes.length; i++) {
-                toy = catalog.findToy(this.ageGroup, sizes[i], (this.maxCostOfToys - sum) / counter);
-                if (!isNumber(toy)) {
+                toy = catalog.findToy(this.ageGroup, sizes[i], (this.maxCostOfToys - sum) / this.countOfToys);
+				console.log(toy);
+                if (typeof toy !== 'number') {
                     this.toys.push(toy);
                     counter--;
                     sum += toy.cost;
-                    flag = 0;
                 }
-            }
-            if(flag) {
-                counter += flag;
-                flag = 0;
-            } else {
-                flag = 1;
             }
         }
 	}
