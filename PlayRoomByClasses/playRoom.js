@@ -62,20 +62,24 @@ module.exports = class PlayRoom {
 	}
 
 	fillRoom(catalog) {
-		let sum = 0, counter = this.countOfToys, flag = 1;
+		let sum = this.maxCostOfToys, counter = this.countOfToys, flag = 0;
 		let toy;
         let sizes = ['big', 'middle', 'small'];
-		console.log(this.ageGroup);
 		while (counter > 0) {
             for (let i = 0; i < sizes.length; i++) {
-                toy = catalog.findToy(this.ageGroup, sizes[i], (this.maxCostOfToys - sum) / this.countOfToys);
-				console.log(toy);
-                if (typeof toy !== 'number') {
+                toy = catalog.findToy(this.ageGroup, sizes[i], sum / counter);
+                if (toy != 0) {
                     this.toys.push(toy);
                     counter--;
-                    sum += toy.cost;
-                }
+                    sum -= toy.cost;
+					flag = 0;
+                } else {
+					flag++;
+				}
             }
+            if (flag == 3){
+				break;
+			}
         }
 	}
 }

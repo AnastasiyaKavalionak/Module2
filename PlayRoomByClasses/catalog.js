@@ -32,31 +32,32 @@ module.exports = class Catalog {
     }
 
     findToy(age, size, cost) {
+        if (this[age][size] !== undefined) {
+            if (this[age][size][0].cost === cost) {
+                return this[age][size][0];
+            }
+            if (this[age][size][this[age][size].length - 1].cost === cost) {
+                return this[age][size][this[age][size].length - 1];
+            }
+            if (this[age][size][0].cost < cost && this[age][size][this[age][size].length - 1].cost > cost) {
 
-        if (this[age][size][0].cost === cost) {
-            return this[age][size][0];
-        }
-        if (this[age][size][this[age][size].length -1].cost === cost) {
-            return this[age][size][this[age][size].length -1];
-        }
-        if (this[age][size][0].cost < cost && this[age][size][this[age][size].length -1].cost > cost) {
-
-            for (let i = 1; i < this[age][size].length; i++) {
-                if (this[age][size][i].cost === cost) {
-                    console.log(i);
-                    return this[age][size][i];
-                }
-                if (this[age][size][i].cost > cost) {
-                    console.log(i);
-                    return this[age][size][i - 1];
+                for (let i = 1; i < this[age][size].length; i++) {
+                    if (this[age][size][i].cost === cost) {
+                        return this[age][size][i];
+                    }
+                    if (this[age][size][i].cost > cost) {
+                        return this[age][size][i - 1];
+                    }
                 }
             }
-        }
-        if (this[age][size][0].cost > cost) {
-            return -1;
-        }
-        if (this[age][size][this[age][size].length -1].cost < cost) {
-            return 1;
+            if (this[age][size][0].cost > cost) {
+                return 0;
+            }
+            if (this[age][size][this[age][size].length - 1].cost < cost) {
+                return this[age][size][this[age][size].length - 1].cost;
+            }
+        } else {
+            return 0;
         }
     }
 }
